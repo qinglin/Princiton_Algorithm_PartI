@@ -1,5 +1,7 @@
 Princiton_Algorithm_PartI
 =========================
+
+By Qinglin,Xia
 Write API for data structure of Deque and Randomized Queue.
 1) Deque:  A double-ended queue or deque (pronounced "deck") is a generalization of a stack and a 
 queue that supports inserting and removing items from either the front or the back of the data structure
