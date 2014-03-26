@@ -1,0 +1,101 @@
+import java.io.File;
+
+// Write a program Brute.java that examines 4 points at a time and 
+// checks whether they all lie on the same line segment, printing out any such line segments 
+// to standard output and drawing them using standard drawing. 
+// To check whether the 4 points p, q, r, and s are collinear, 
+// check whether the slopes between p and q, between p and r, and between p and s are all equal.
+
+//The order of growth of the running time of your program should be N4 in the worst case 
+// and it should use space proportional to N.
+public class Brute {
+	private Point p1; 
+	private Point p2; 
+	private Point p3; 
+	private Point p4; 
+	public Brute() {
+		
+	}
+	
+	private void getPoints(Point p1, Point p2, Point p3, Point p4) {
+		this.p1 = p1;
+		this.p2 = p2;
+		this.p3 = p3;
+		this.p4 = p4;
+	}
+	
+	private boolean isCollinear() {
+		double slope1 = p1.slopeTo(p2);
+		double slope2 = p2.slopeTo(p3);
+		double slope3 = p3.slopeTo(p4);
+		if (slope1 == slope2 && slope2 == slope3) {
+			return true;
+		}
+		return false; 
+	}
+	
+	private Point[] Sort(){
+		Point[] points = new Point[4];
+		points[0] = p1;
+		points[1] = p2;
+		points[2] = p3;
+		points[3] = p4;
+		// Insertion Sort
+		for (int i = 0; i<3; i++) {
+			int j =  i + 1;
+			while(j >= 0 && i >= 0 && points[i].compareTo(points[j]) > 0) {
+					Point temp = points[i];
+					points[i--] = points[j];
+					points[j--] = temp;
+		}
+	
+		}
+		StdDraw.setXscale(0, 32768);
+		StdDraw.setYscale(0, 32768);
+		points[0].drawTo(points[3]);
+		return points;
+	}
+	
+	
+	
+	public static void main(String args[]) {
+		In in = new In(new File(args[0]));
+		int lineNum = 0;
+		int i = 0;
+		if (in.hasNextLine()) {
+			lineNum = in.readInt();
+		}
+		in.readLine();
+		Point[] points = new Point[lineNum];
+		while (in.hasNextLine()) {
+			int x = in.readInt();
+			int y = in.readInt();
+			in.readLine();
+			points[i] = new Point(x,y);
+			StdDraw.setXscale(0, 32768);
+			StdDraw.setYscale(0, 32768);
+			points[i++].draw(); 
+			}
+		
+		Brute b = null;
+		for (int j = 0; j  < lineNum; j++) {
+			for (int k = j+1 ; k < lineNum; k++) {
+				for (int l = k+1; l < lineNum; l++) {
+					for (int m = l + 1; m< lineNum; m++) {
+						b = new Brute();
+						b.getPoints(points[j],points[k],points[l],points[m]);
+						if (b.isCollinear()) {
+							Point[] collinear = new Point[4];
+							collinear = b.Sort();
+							StdOut.println(collinear[0].toString()+" -> " + collinear[1].toString()+" -> " + collinear[2].toString()  +" -> " + collinear[3].toString());
+						}
+						
+					}
+				}
+			}
+			
+		}		
+		
+		
+	}
+}
